@@ -3,6 +3,21 @@
 - **Author** - Matt Biggin
 - **Submission Date** - 8th March 2023
 
+## Build and Run
+
+To build the service use the following command:
+
+```
+$ mvn clean package
+```
+
+And to run it:
+
+```
+$ cd target
+$ java -jar tradeprocessing-1.0.0.jar
+```
+
 ## REST API Endpoints
 
 ### Core API
