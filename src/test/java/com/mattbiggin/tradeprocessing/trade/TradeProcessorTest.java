@@ -6,15 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TradeProcessorTest {
-    final Map<String, String> productLookup = new HashMap<>();
     @Mock
     private Products mockProducts;
 
@@ -23,7 +19,7 @@ class TradeProcessorTest {
         final var processor = new TradeProcessor(mockProducts);
         when(mockProducts.lookupProduct("A")).thenReturn("Product Name");
 
-        final var trade = processor.process("20160101,A,B,C", productLookup);
+        final var trade = processor.process("20160101,A,B,C");
 
         assertTrue(trade.isPresent());
         assertEquals("20160101,Product Name,B,C\n", trade.get());
@@ -33,7 +29,7 @@ class TradeProcessorTest {
     public void testInvalidColumnsCount() {
         final var processor = new TradeProcessor(mockProducts);
 
-        final var trade = processor.process("20160101,A,B", productLookup);
+        final var trade = processor.process("20160101,A,B");
 
         assertFalse(trade.isPresent());
     }
@@ -43,7 +39,7 @@ class TradeProcessorTest {
         final var processor = new TradeProcessor(mockProducts);
         when(mockProducts.lookupProduct("A")).thenReturn("Product Name");
 
-        final var trade = processor.process("20161301,A,B,C", productLookup);
+        final var trade = processor.process("20161301,A,B,C");
 
         assertFalse(trade.isPresent());
     }

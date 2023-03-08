@@ -21,8 +21,6 @@ public class TradeStreamEnrichment {
     private TradeProcessor tradeProcessor;
 
     public void processTrades(BufferedReader reader, OutputStream output) {
-        final var productLookup = products.getProducts().products();
-
         try {
             output.write("date,product_name,currency,price\n".getBytes());
 
@@ -32,7 +30,7 @@ public class TradeStreamEnrichment {
                 if (isFirst) { // Ignore the first header row
                     isFirst = false;
                 } else {
-                    tradeProcessor.process(line, productLookup).ifPresent(t -> {
+                    tradeProcessor.process(line).ifPresent(t -> {
                         try {
                             output.write(t.getBytes());
                         } catch (IOException e) {

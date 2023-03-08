@@ -23,7 +23,7 @@ class TradeProcessor {
         this.products = products;
     }
 
-    Optional<String> process(String line, Map<String, String> productLookup) {
+    Optional<String> process(String line) {
         final var columns = line.split(",");
 
         if (hasValidColumns(columns)) {
