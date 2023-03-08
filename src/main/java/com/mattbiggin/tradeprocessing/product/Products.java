@@ -14,7 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Products {
     public static final String COLUMNS = "product_id,product_name";
     public static final String DEFAULT_PRODUCT_NAME = "Missing Product Name";
+
     private static final Logger log = LoggerFactory.getLogger(Products.class);
+
     final private ProductReader productReader;
 
     private final Map<String, String> products = new ConcurrentHashMap<>();
