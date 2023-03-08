@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Component
 public class Products {
@@ -52,10 +51,7 @@ public class Products {
     }
 
     public ProductList getProducts() {
-        // Defensively copy the current product list so that sortability is accurate
-        var copy = products.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return new ProductList(copy, areProductsSortable(copy.keySet()));
+        return new ProductList(products, areProductsSortable(products.keySet()));
     }
 
     public boolean addProduct(String id, String name) {

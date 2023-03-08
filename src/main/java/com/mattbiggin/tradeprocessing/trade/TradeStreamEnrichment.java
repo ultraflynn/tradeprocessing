@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 
 @Component
 public class TradeStreamEnrichment {
@@ -22,7 +21,7 @@ public class TradeStreamEnrichment {
     private TradeProcessor tradeProcessor;
 
     public void processTrades(BufferedReader reader, OutputStream output) {
-        final var productLookup = new HashMap<String, String>();
+        final var productLookup = products.getProducts().products();
 
         try {
             output.write("date,product_name,currency,price\n".getBytes());

@@ -32,7 +32,7 @@ class TradeProcessor {
             final String currency = columns[2].trim();
             final String price = columns[3].trim();
 
-            final var productName = productLookup.computeIfAbsent(productId, products::lookupProduct);
+            final var productName = products.lookupProduct(productId);
 
             if (isValidDate(date, line)) {
                 return Optional.of(String.join(",", date, productName, currency, price) + "\n");
