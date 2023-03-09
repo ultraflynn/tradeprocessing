@@ -143,6 +143,10 @@ intention was to ensure that the code I wrote worked. I specifically did not tar
 
 ## Further development
 
+### Security
+No consideration has been given to securing the endpoints. I would expect this service to operate within a zero-trust environment
+and therefore ensuring that the callers of the endpoints are authentication and permitted to use this resource.
+
 ### Input file validation
 There are many issues with the input files that could cause issues:
 - Missing header rows
