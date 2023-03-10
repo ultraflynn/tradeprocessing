@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
 
 @Component
 public class TradeStreamEnrichment {
@@ -21,6 +22,8 @@ public class TradeStreamEnrichment {
     private TradeProcessor tradeProcessor;
 
     public void processTrades(BufferedReader reader, OutputStream output) {
+        final var missingProductMappings = new HashSet<String>();
+
         try {
             output.write("date,product_name,currency,price\n".getBytes());
 
@@ -30,7 +33,7 @@ public class TradeStreamEnrichment {
                 if (isFirst) { // Ignore the first header row
                     isFirst = false;
                 } else {
-                    tradeProcessor.process(line).ifPresent(t -> {
+                    tradeProcessor.process(line, missingProductMappings).ifPresent(t -> {
                         try {
                             output.write(t.getBytes());
                         } catch (IOException e) {

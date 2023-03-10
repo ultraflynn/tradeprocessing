@@ -43,11 +43,14 @@ public class Products {
         products.putAll(productReader.readProducts());
     }
 
-    public String lookupProduct(String id) {
+    public String lookupProduct(String id, Set<String> missingProductMappings) {
         if (products.containsKey(id)) {
             return products.get(id);
         } else {
-            log.error("Missing product mapping - " + id);
+            if (!missingProductMappings.contains(id)) {
+                log.error("Missing product mapping - " + id);
+                missingProductMappings.add(id);
+            }
             return DEFAULT_PRODUCT_NAME;
         }
     }

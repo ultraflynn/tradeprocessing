@@ -106,15 +106,10 @@ validating the number of columns that produces. The reasons for this decision we
 ### Large Sets of Trades / Products
 The service is optimised for large sets of trade data rather than a large number of products. My working assumption being that
 trade volumes and likely much higher than the number of products. As such the product static data is held in-memory and an
-appropriate heap size would need to be selected to handle the volume.
+appropriate heap size would need to be selected to handle the size of the product static data.
 
-A stream based approach is adopted for trade processing to minimise the memory requirements whilst processing uploads trade
+A stream based approach is adopted for trade processing to minimise the memory requirements whilst processing uploaded trade
 data files. I saw this as the major use case and optimised accordingly.
-
-Should the assumption that heap size could not be scaled to the product static data prove to be incorrect then the data structure
-used to store the product static could be modified to use a `WeakHashMap` to act as a LRU cache but this would cause the product static data to
-need to be reloaded on cache misses and would have a performance penalty. Before implementation full consideration would need to be given
-to how to handle this scenario.
 
 ### `product_id` using String
 There was no requirement specified whether the `product_id` was an int or a String. The sample data indicates an int but for speed of lookup
@@ -128,9 +123,10 @@ A `ConcurrentHashMap` is used because I decided to include the `/api/v1/products
 that as a valid change of implementation to ensure no issues with iterating over a collection that has been concurrently modified.
 
 ### Missing products are logged once
-When a trade references a missing product that is logged once per missing product, rather than for each trade that is referencing it. I
-envisaged the situation where many trades might reference a single missing product and that identifying the missing product was preferable
-to filling up the logs with the same error.
+When a trade references a product that is missing from the product static data it is defaulted to a product name of
+"Missing Product Name". This happens on each trade that references the missing product but is only logged once to the
+log output. The log file therefore contains a concise list of missing product static data mappings rather than a potentially
+long list of duplicated missing mapping entries.
 
 ### Readability over cleverness
 I have specifically avoided trying to show off every language feature, design pattern or framework in this implementation. I have

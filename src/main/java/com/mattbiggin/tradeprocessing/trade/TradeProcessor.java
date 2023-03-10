@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 class TradeProcessor {
@@ -22,7 +23,7 @@ class TradeProcessor {
         this.products = products;
     }
 
-    Optional<String> process(String line) {
+    Optional<String> process(String line, Set<String> missingProductMappings) {
         final var columns = line.split(",");
 
         if (hasValidColumns(columns)) {
@@ -31,7 +32,7 @@ class TradeProcessor {
             final String currency = columns[2].trim();
             final String price = columns[3].trim();
 
-            final var productName = products.lookupProduct(productId);
+            final var productName = products.lookupProduct(productId, missingProductMappings);
 
             if (isValidDate(date, line)) {
                 return Optional.of(String.join(",", date, productName, currency, price) + "\n");
