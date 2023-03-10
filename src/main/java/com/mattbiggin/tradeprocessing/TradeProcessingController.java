@@ -47,8 +47,8 @@ public class TradeProcessingController {
         final var productList = products.products()
                 .entrySet().stream()
                 .sorted((o1, o2) -> {
-                    String key1 = o1.getKey();
-                    String key2 = o2.getKey();
+                    final var key1 = o1.getKey();
+                    final var key2 = o2.getKey();
 
                     if (products.sortable()) {
                         return Integer.valueOf(key1).compareTo(Integer.valueOf(key2));
