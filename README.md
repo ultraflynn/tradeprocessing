@@ -14,8 +14,7 @@ $ mvn clean package
 And to run it:
 
 ```
-$ cd target
-$ java -jar tradeprocessing-1.0.0.jar
+$ mvn exec:java
 ```
 
 ## REST API Endpoints
